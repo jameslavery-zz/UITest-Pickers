@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns     ="http://xamarin.com/schemas/2014/forms"
+    xmlns:x    ="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:UITestPickerBackdoors;assembly=UITestPickerBackdoors"
+    xmlns:local="clr-namespace:UITestPickerBackdoors"
+    AutomationId="IdMainPage"
+    x:Class    ="UITestPickerBackdoors.MainPage">
+    <ContentView>
+        <Grid Padding="10"
+            BackgroundColor="Bisque">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="2*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label
+                Grid.Row         ="0"
+                Grid.Column      ="0"
+                HorizontalOptions="Start"
+                VerticalOptions  ="Center"
+                Text             ="Ordinary Picker" />
+            <Picker
+                AutomationId="IdOrdinaryPicker"
+                Grid.Row    ="0"
+                Grid.Column ="1"
+                ItemsSource ="{Binding SimpleItems}"
+                Title       ="Select An Item" />
+            <Label
+                Grid.Row         ="1"
+                Grid.Column      ="0"
+                HorizontalOptions="Start"
+                VerticalOptions  ="Center"
+                Text             ="Date Picker" />
+            <DatePicker
+                AutomationId="IdDatePicker"
+                Grid.Row    ="1"
+                Grid.Column ="1" />
+        </Grid>
+    </ContentView>
+</ContentPage>
