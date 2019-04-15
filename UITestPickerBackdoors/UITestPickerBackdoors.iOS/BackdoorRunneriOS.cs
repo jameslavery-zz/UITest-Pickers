@@ -12,6 +12,11 @@ namespace UITestPickerBackdoors.iOS
             UITestBackdoorMethods.SetFormsDatePickerValue(automationId, value);
         }
 
+        public void SetFormsPickerIndex(string automationId, int value)
+        {
+            UITestBackdoorMethods.SetFormsPickerIndex(automationId, value);
+        }
+
         public void SetFormsPickerValue(string automationId, string value)
         {
             UITestBackdoorMethods.SetFormsPickerValue(automationId, value);

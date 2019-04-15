@@ -58,17 +58,32 @@ namespace UITestPickerBackdoors.iOS
         }
 
         /// <summary>
-        /// Sets a Picker to the first available item in its list of values.
+        /// Sets a Picker to the first item with the specified index.
         /// </summary>
         /// <returns>"OK" on success, or a simple message on failure.</returns>
         /// <param name="automationId">The AutomationId of the Picker whose value is to be set.</param>
-        public static string SetFormsFirstPickerValue(string automationId)
+        public static string SetFormsPickerIndex(string automationId, int index)
         {
             var foundPickerRenderer = FindRendererOfTypeWithAutomationId<PickerRenderer>(automationId);
             if (foundPickerRenderer != null)
             {
-                foundPickerRenderer.Element.SelectedItem = 0;
-                return "OK";
+                if (index >= 0)
+                {
+                    if (index < foundPickerRenderer.Element.Items.Count)
+                    {
+                        foundPickerRenderer.Element.SelectedIndex = index;
+                        return "OK";
+                    }
+                    else
+                    {
+                        return $"Index {index} is off the end of the items for picker {automationId}";
+                    }
+                }
+                else
+                {
+                    return $"Cannot set index to {index} for picker {automationId}";
+                }
+
             }
             else
             {

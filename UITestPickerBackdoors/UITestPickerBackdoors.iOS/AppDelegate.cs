@@ -44,10 +44,19 @@ namespace UITestPickerBackdoors.iOS
 
         }
 
-        [Export("SetFormsFirstPickerValue:")] // notice the colon at the end of the method name
-        public NSString SetFormsFirstPickerValue(NSString automationId)
+        [Export("setFormsPickerIndex:")] // notice the colon at the end of the method name
+        public NSString SetFormsPickerIndex(NSString parameters)
         {
-            string returnValue = UITestBackdoorMethods.SetFormsFirstPickerValue(automationId);
+            var idAndValueAsString = (string)parameters;
+
+            var myParams = idAndValueAsString.Split('|');
+            if (myParams.Length != 2)
+            {
+                throw new Exception($"SelectPickerValue: Could not parse '{parameters}' into an Id and Index");
+            }
+
+            int index = int.Parse(myParams[1]);
+            string returnValue = UITestBackdoorMethods.SetFormsPickerIndex(myParams[0],index);
             return new NSString(returnValue);
 
         }

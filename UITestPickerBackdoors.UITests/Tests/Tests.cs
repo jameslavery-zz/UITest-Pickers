@@ -21,10 +21,28 @@ namespace UITestPickerBackdoors.UITests
         public void ICanSetAnOrdinaryPickerValue()
         {
             var p = new TestMainPage();
-            p.SelectOrdinaryPickerValue("Second item");
+            p.SetOrdinaryPickerValue("Second item");
             AppManager.Screenshot("After selecting second item");
 
-            p.SelectOrdinaryPickerValue("And here's the third one", true);
+            p.SetOrdinaryPickerValue("And here's the third one", true);
+
+        }
+
+        [Test]
+        public void ICanSetAnOrdinaryPickerIndex()
+        {
+            var p = new TestMainPage();
+            p.SetOrdinaryPickerIndex("2");
+            AppManager.Screenshot("After selecting index 2");
+        }
+
+        [Test]
+        public void ICanSetAnOrdinaryPickerToFirstItem()
+        {
+            var p = new TestMainPage();
+            p.SetOrdinaryPickerValue("Second item");
+            AppManager.Screenshot("After selecting first item");
+
 
         }
 
@@ -33,10 +51,10 @@ namespace UITestPickerBackdoors.UITests
         {
             var p = new TestMainPage();
 
-            p.SelectDatePickerValue(new DateTime(1982, 02, 05));
+            p.SetDatePickerValue(new DateTime(1982, 02, 05));
             AppManager.Screenshot("After selecting date");
 
-            p.SelectDatePickerValue(new DateTime(1960, 11, 22), true);
+            p.SetDatePickerValue(new DateTime(1960, 11, 22), true);
             AppManager.Screenshot("After selecting date and showing picker");
 
         }
@@ -46,15 +64,15 @@ namespace UITestPickerBackdoors.UITests
         {
             var p = new TestMainPage();
 
-            p.SelectOrdinaryPickerValue("Second item");
+            p.SetOrdinaryPickerValue("Second item");
             AppManager.Screenshot("After selecting second item");
 
-            p.SelectOrdinaryPickerValue("And here's the third one", true);
+            p.SetOrdinaryPickerValue("And here's the third one", true);
 
-            p.SelectDatePickerValue(new DateTime(1982, 02, 05));
+            p.SetDatePickerValue(new DateTime(1982, 02, 05));
             AppManager.Screenshot("After selecting date");
 
-            p.SelectDatePickerValue(new DateTime(1960, 11, 22), true);
+            p.SetDatePickerValue(new DateTime(1960, 11, 22), true);
             AppManager.Screenshot("After selecting date and showing picker");
 
         }

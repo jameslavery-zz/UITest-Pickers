@@ -27,6 +27,8 @@
                     Height="Auto" />
                 <RowDefinition
                     Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
             </Grid.RowDefinitions>
             <Label
                 Grid.Row         ="0"
@@ -64,9 +66,15 @@
                 Grid.Column    ="0"
                 Grid.ColumnSpan="2"
                 Text           ="Set Ordinary Picker to 'Second item'"
-                Command        ="{Binding SetOrdinaryPickerCommand}" />
+                Command        ="{Binding SetOrdinaryPickerValueCommand}" />
             <Button
                 Grid.Row       ="4"
+                Grid.Column    ="0"
+                Grid.ColumnSpan="2"
+                Text           ="Set Ordinary Picker to 3rd item"
+                Command        ="{Binding SetOrdinaryPickerIndexCommand}" />
+            <Button
+                Grid.Row       ="5"
                 Grid.Column    ="0"
                 Grid.ColumnSpan="2"
                 Text           ="Set Date Picker to 22nd March 1973"

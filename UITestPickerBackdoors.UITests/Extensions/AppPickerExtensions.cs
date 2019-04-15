@@ -5,6 +5,30 @@ namespace UITestPickerBackdoors.UITests.Extensions
 {
     public static class AppPickerExtensions
     {
+        public static void SetFormsPickerIndex(this IApp app, Platform platform, string automationId, string index, bool showPicker = false)
+        {
+            if (platform == Platform.iOS)
+            {
+                if (showPicker)
+                {
+                    app.Tap(e => e.Id(automationId));
+                }
+
+                // construct a parameter of the automationId of the Picker and the value to set
+                string parameter = $"{automationId}|{index}";
+                var result = app.Invoke("setFormsPickerIndex:", parameter);
+
+                if (showPicker)
+                {
+                    app.Tap(e => e.Text("Done"));
+                }
+            }
+            else
+            {
+                throw new NotImplementedException("SetFormsPickerIndex not imlemented for Android.");
+            }
+        }
+
         public static void SetFormsPickerValue(this IApp app, Platform platform, string automationId, string value, bool showPicker = false)
         {
             if (platform == Platform.iOS)

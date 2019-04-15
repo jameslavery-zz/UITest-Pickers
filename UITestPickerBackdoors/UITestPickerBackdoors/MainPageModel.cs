@@ -32,16 +32,29 @@ namespace UITestPickerBackdoors
 
         #region Commands
 
-        private ICommand _SetOrdinaryPickerCommand;
-        public ICommand SetOrdinaryPickerCommand
+        private ICommand _SetOrdinaryPickerValueCommand;
+        public ICommand SetOrdinaryPickerValueCommand
         {
             get
             {
-                if (_SetOrdinaryPickerCommand == null)
+                if (_SetOrdinaryPickerValueCommand == null)
                 {
-                    _SetOrdinaryPickerCommand = new Command(() => this.SetOrdinaryPicker());
+                    _SetOrdinaryPickerValueCommand = new Command(() => this.SetOrdinaryPickerValue());
                 }
-                return _SetOrdinaryPickerCommand;
+                return _SetOrdinaryPickerValueCommand;
+            }
+        }
+
+        private ICommand _SetOrdinaryPickerIndexCommand;
+        public ICommand SetOrdinaryPickerIndexCommand
+        {
+            get
+            {
+                if (_SetOrdinaryPickerIndexCommand == null)
+                {
+                    _SetOrdinaryPickerIndexCommand = new Command(() => this.SetOrdinaryPickerIndex());
+                }
+                return _SetOrdinaryPickerIndexCommand;
             }
         }
 
@@ -61,10 +74,16 @@ namespace UITestPickerBackdoors
         #endregion Commands
 
         #region Private Methods
-        private void SetOrdinaryPicker()
+        private void SetOrdinaryPickerValue()
         {
             var runner = FreshIOC.Container.Resolve<IBackdoorRunner>();
             runner.SetFormsPickerValue("IdOrdinaryPicker", "Second item");
+        }
+
+        private void SetOrdinaryPickerIndex()
+        {
+            var runner = FreshIOC.Container.Resolve<IBackdoorRunner>();
+            runner.SetFormsPickerIndex("IdOrdinaryPicker", 2);
         }
 
         private void SetDatePicker()

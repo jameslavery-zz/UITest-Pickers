@@ -7,6 +7,7 @@ namespace UITestPickerBackdoors
     public interface IBackdoorRunner
     {
         void SetFormsPickerValue(string automationId, string value);
+        void SetFormsPickerIndex(string automationId, int value);
         void SetFormsDatePickerValue(string automationId, DateTime value);
     }
 }
