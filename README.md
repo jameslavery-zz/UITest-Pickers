@@ -12,6 +12,8 @@ Supported Pickers are:
 * Ordinary Pickers with a list of items
 * Date Pickers.
 
+_**Note**_ that these backdoors and supporting classes are only for iOS.
+
 ## Usage
 
 1. Add [UITestBackdoorMethods.cs](UITestPickerBackdoors/UITestPickerBackdoors.iOS/UITestBackdoorMethods.cs) to your iOS project.
