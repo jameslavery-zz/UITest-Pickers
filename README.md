@@ -13,6 +13,6 @@ Supported Pickers are:
 
 ## Usage
 
-1. Add [UIBackDoorMethods.cs](UIBackDoorMethods.cs) to your iOS project.
-1. Amend [AppDelegate.cs](AppDelegate.cs) to add the actual backdoor methods which will be Invoked.
+1. Add [UITestBackdoorMethods.cs](UITestPickerBackdoors/UITestPickerBackdoors.iOS/UITestBackdoorMethods.cs) to your iOS project.
+1. Amend [AppDelegate.cs](UITestPickerBackdoors/UITestPickerBackdoors.iOS/AppDelegate.cs) to add the actual backdoor methods which will be Invoked.
 1. Invoke the backdoor methods from your UITests.
