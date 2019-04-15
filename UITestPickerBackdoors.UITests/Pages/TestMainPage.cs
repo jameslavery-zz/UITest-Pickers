@@ -1,4 +1,5 @@
-﻿using UITestPickerBackdoors.UITests.Extensions;
+﻿using System;
+using UITestPickerBackdoors.UITests.Extensions;
 namespace UITestPickerBackdoors.UITests.Pages
 {
     public class TestMainPage: BaseTestPage
@@ -19,12 +20,15 @@ namespace UITestPickerBackdoors.UITests.Pages
             iOS = x => x.Marked("IdMainPage")
         };
 
- 
-        public void SelectOrdinaryPickerValue(string value)
+
+        public void SelectOrdinaryPickerValue(string value, bool showPicker = false)
         {
-            AppManager.App.SelectPickerValue(AppManager.Platform, OrdinaryPicker.AutomationId, value);
+            AppManager.App.SetFormsPickerValue(AppManager.Platform, OrdinaryPicker.AutomationId, value,showPicker);
         }
 
-
+        public void SelectDatePickerValue(DateTime dateValue, bool showPicker = false)
+        {
+            AppManager.App.SetFormsDatePickerValue(AppManager.Platform, DatePicker.AutomationId, dateValue , showPicker);
+        }
     }
 }

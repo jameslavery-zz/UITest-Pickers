@@ -26,8 +26,8 @@ namespace UITestPickerBackdoors.iOS
         }
 
 #if ENABLE_TEST_CLOUD
-        [Export("selectPickerValue:")] // notice the colon at the end of the method name
-        public NSString SelectPickerValue(NSString parameters)
+        [Export("setFormsPickerValue:")] // notice the colon at the end of the method name
+        public NSString SetFormsPickerValue(NSString parameters)
         {
             var idAndValueAsString = (string)parameters;
 
@@ -37,21 +37,21 @@ namespace UITestPickerBackdoors.iOS
                 throw new Exception($"SelectPickerValue: Could not parse '{parameters}' into an Id and Value");
             }
 
-            string returnValue = UITestBackdoorMethods.SelectPickerValue(myParams[0], myParams[1]);
+            string returnValue = UITestBackdoorMethods.SetFormsPickerValue(myParams[0], myParams[1]);
             return new NSString(returnValue);
 
         }
 
-        [Export("selectFirstPickerValue:")] // notice the colon at the end of the method name
-        public NSString SelectFirstPickerValue(NSString automationId)
+        [Export("SetFormsFirstPickerValue:")] // notice the colon at the end of the method name
+        public NSString SetFormsFirstPickerValue(NSString automationId)
         {
-            string returnValue = UITestBackdoorMethods.SelectFirstPickerValue(automationId);
+            string returnValue = UITestBackdoorMethods.SetFormsFirstPickerValue(automationId);
             return new NSString(returnValue);
 
         }
 
-        [Export("setDatePickerValue:")] // notice the colon at the end of the method name
-        public NSString SetDatePickerValue(NSString parameters)
+        [Export("setFormsDatePickerValue:")] // notice the colon at the end of the method name
+        public NSString SetFormsDatePickerValue(NSString parameters)
         {
             var idAndValueAsString = (string)parameters;
 
@@ -61,8 +61,9 @@ namespace UITestPickerBackdoors.iOS
                 throw new Exception($"SetDatePickerValue: Could not parse '{parameters}' into an Id and Value");
             }
 
+            // Parse the parameter from a string to a DateTime
             DateTime value = DateTime.Parse(myParams[1]);
-            string returnValue = UITestBackdoorMethods.SetDatePickerValue(myParams[0], value);
+            string returnValue = UITestBackdoorMethods.SetFormsDatePickerValue(myParams[0], value);
 
             return new NSString(returnValue);
 

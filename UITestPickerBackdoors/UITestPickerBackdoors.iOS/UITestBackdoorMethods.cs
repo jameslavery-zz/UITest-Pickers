@@ -10,7 +10,10 @@ namespace UITestPickerBackdoors.iOS
         static PickerRenderer foundPickerRenderer = null;
         static DatePickerRenderer foundDatePickerRenderer = null;
 
-        public static string SetDatePickerValue(string automationId, DateTime value)
+        #region Public Methods
+
+    
+        public static string SetFormsDatePickerValue(string automationId, DateTime value)
         {
             FindDatePickerRendererWithId(automationId);
             if (foundDatePickerRenderer != null)
@@ -21,7 +24,7 @@ namespace UITestPickerBackdoors.iOS
             return $"Could not find picker with AutomationId {automationId}";
         }
 
-        public static string SelectPickerValue(string automationId, string value)
+        public static string SetFormsPickerValue(string automationId, string value)
         {
             FindPickerRendererWithId(automationId);
             if (foundPickerRenderer != null)
@@ -45,7 +48,7 @@ namespace UITestPickerBackdoors.iOS
         }
 
 
-        public static string SelectFirstPickerValue(string automationId)
+        public static string SetFormsFirstPickerValue(string automationId)
         {
             FindPickerRendererWithId(automationId);
             if (foundPickerRenderer != null)
@@ -58,6 +61,11 @@ namespace UITestPickerBackdoors.iOS
                 return $"Could not find picker with AutomationId {automationId}";
             }
         }
+
+        #endregion Public Methods
+
+
+        #region Private Methods
 
 
         private static void FindDatePickerRendererWithId(string automationId)
@@ -136,6 +144,8 @@ namespace UITestPickerBackdoors.iOS
             }
             return rootViewController;
         }
+
+        #endregion Private Methods
 #endif
     }
 }
