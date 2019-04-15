@@ -29,5 +29,50 @@ namespace UITestPickerBackdoors
         public string Title { get; set; }
 
         #endregion Bound Properties
+
+        #region Commands
+
+        private ICommand _SetOrdinaryPickerCommand;
+        public ICommand SetOrdinaryPickerCommand
+        {
+            get
+            {
+                if (_SetOrdinaryPickerCommand == null)
+                {
+                    _SetOrdinaryPickerCommand = new Command(() => this.SetOrdinaryPicker());
+                }
+                return _SetOrdinaryPickerCommand;
+            }
+        }
+
+        private ICommand _SetDatePickerCommand;
+        public ICommand SetDatePickerCommand
+        {
+            get
+            {
+                if (_SetDatePickerCommand == null)
+                {
+                    _SetDatePickerCommand = new Command(() => this.SetDatePicker());
+                }
+                return _SetDatePickerCommand;
+            }
+        }
+
+        #endregion Commands
+
+        #region Private Methods
+        private void SetOrdinaryPicker()
+        {
+            var runner = FreshIOC.Container.Resolve<IBackdoorRunner>();
+            runner.SetFormsPickerValue("IdOrdinaryPicker", "Second item");
+        }
+
+        private void SetDatePicker()
+        {
+            var runner = FreshIOC.Container.Resolve<IBackdoorRunner>();
+            runner.SetFormsDatePickerValue("IdDatePicker", new System.DateTime(1973,3,22));
+        }
+
+        #endregion Private Methods
     }
 }

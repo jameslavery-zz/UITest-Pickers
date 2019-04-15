@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage
-    xmlns     ="http://xamarin.com/schemas/2014/forms"
-    xmlns:x    ="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:UITestPickerBackdoors;assembly=UITestPickerBackdoors"
-    xmlns:local="clr-namespace:UITestPickerBackdoors"
+    xmlns      ="http://xamarin.com/schemas/2014/forms"
+    xmlns:x     ="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views ="clr-namespace:UITestPickerBackdoors;assembly=UITestPickerBackdoors"
+    xmlns:local ="clr-namespace:UITestPickerBackdoors"
     AutomationId="IdMainPage"
-    x:Class    ="UITestPickerBackdoors.MainPage">
+    x:Class     ="UITestPickerBackdoors.MainPage">
     <ContentView>
-        <Grid Padding="10"
+        <Grid
+            Padding        ="10"
             BackgroundColor="Bisque">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition
@@ -16,6 +17,12 @@
                     Width="2*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
+                <RowDefinition
+                    Height="Auto" />
                 <RowDefinition
                     Height="Auto" />
                 <RowDefinition
@@ -43,6 +50,27 @@
                 AutomationId="IdDatePicker"
                 Grid.Row    ="1"
                 Grid.Column ="1" />
+            <Label
+                Grid.Row               ="2"
+                Grid.Column            ="0"
+                Grid.ColumnSpan        ="2"
+                Margin                 ="0,30,0,0"
+                FontSize               ="Large"
+                HorizontalOptions      ="Center"
+                HorizontalTextAlignment="Center"
+                Text                   ="Call backdoors directly with buttons below" />
+            <Button
+                Grid.Row       ="3"
+                Grid.Column    ="0"
+                Grid.ColumnSpan="2"
+                Text           ="Set Ordinary Picker to 'Second item'"
+                Command        ="{Binding SetOrdinaryPickerCommand}" />
+            <Button
+                Grid.Row       ="4"
+                Grid.Column    ="0"
+                Grid.ColumnSpan="2"
+                Text           ="Set Date Picker to 22nd March 1973"
+                Command        ="{Binding SetDatePickerCommand}" />
         </Grid>
     </ContentView>
 </ContentPage>

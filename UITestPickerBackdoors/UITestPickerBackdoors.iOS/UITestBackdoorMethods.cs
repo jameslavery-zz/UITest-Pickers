@@ -1,5 +1,6 @@
 ﻿using System;
 using UIKit;
+using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
 namespace UITestPickerBackdoors.iOS
@@ -7,26 +8,35 @@ namespace UITestPickerBackdoors.iOS
     public static class UITestBackdoorMethods
     {
 #if ENABLE_TEST_CLOUD
-        static PickerRenderer foundPickerRenderer = null;
-        static DatePickerRenderer foundDatePickerRenderer = null;
 
         #region Public Methods
 
-    
+        /// <summary>
+        /// Sets a DatePicker to the value provided.
+        /// </summary>
+        /// <returns>"OK" on success, or a simple message on failure.</returns>
+        /// <param name="automationId">The AutomationId of the Picker to update.</param>
+        /// <param name="value">The DateTime value to which to set the Picker</param>
         public static string SetFormsDatePickerValue(string automationId, DateTime value)
         {
-            FindDatePickerRendererWithId(automationId);
-            if (foundDatePickerRenderer != null)
+            var foundPickerRenderer = FindRendererOfTypeWithAutomationId<DatePickerRenderer>(automationId);
+            if (foundPickerRenderer != null)
             {
-                foundDatePickerRenderer.Element.Date = value;
+                foundPickerRenderer.Element.Date = value;
                 return "OK";
             }
             return $"Could not find picker with AutomationId {automationId}";
         }
 
+        /// <summary>
+        /// Sets a Picker to the value provided.
+        /// </summary>
+        /// <returns>"OK" on success, or a simple message on failure.</returns>
+        /// <param name="automationId">The AutomationId of the Picker to update.</param>
+        /// <param name="value">The value to which to set the Picker. This must exist in the list of values for the Picker.</param>
         public static string SetFormsPickerValue(string automationId, string value)
         {
-            FindPickerRendererWithId(automationId);
+            var foundPickerRenderer = FindRendererOfTypeWithAutomationId<PickerRenderer>(automationId);
             if (foundPickerRenderer != null)
             {
                 // For some reason setting SelectedItem doesn't work reliably (probably when the Picker is bound to a non-simple object list).
@@ -47,10 +57,14 @@ namespace UITestPickerBackdoors.iOS
             }
         }
 
-
+        /// <summary>
+        /// Sets a Picker to the first available item in its list of values.
+        /// </summary>
+        /// <returns>"OK" on success, or a simple message on failure.</returns>
+        /// <param name="automationId">The AutomationId of the Picker whose value is to be set.</param>
         public static string SetFormsFirstPickerValue(string automationId)
         {
-            FindPickerRendererWithId(automationId);
+            var foundPickerRenderer = FindRendererOfTypeWithAutomationId<PickerRenderer>(automationId);
             if (foundPickerRenderer != null)
             {
                 foundPickerRenderer.Element.SelectedItem = 0;
@@ -67,80 +81,78 @@ namespace UITestPickerBackdoors.iOS
 
         #region Private Methods
 
-
-        private static void FindDatePickerRendererWithId(string automationId)
+        private static T FindRendererOfTypeWithAutomationId<T>(string automationId)
         {
-            UIViewController currentViewController = topViewController();
-            FindDatePickerRendererWithIdBelowView(currentViewController.View, automationId);
+            UIViewController currentViewController = GetTopViewController();
+            return FindRendererOfTypeBelowViewWithAutomationId<T>(currentViewController.View, automationId);
         }
 
 
-        private static void FindDatePickerRendererWithIdBelowView(UIView view, string automationId)
+        /// <summary>
+        /// Finds the picker renderer with the given AutomationId, below the given View.
+        /// </summary>
+        /// <returns>The picker renderer with identifier below view.</returns>
+        /// <param name="view">The top-level View</param>
+        /// <param name="automationId">The AutomationId being sought.</param>
+        /// <typeparam name="T">The type being sought</typeparam>
+        private static T FindRendererOfTypeBelowViewWithAutomationId<T>(object view, string automationId)
         {
-            if (view is DatePickerRenderer)
+            if (view is T)
             {
-                var p = (DatePickerRenderer)view;
-                if (p.Element.AutomationId == automationId)
+                // There is probably a more elegant way to to this. But we need the Element property, and then need to get the
+                // AutomationId of the Element.
+                var elementProperty = view.GetType().GetProperty("Element");
+                if (elementProperty != null)
                 {
-                    foundDatePickerRenderer = p;
+                    var element = elementProperty.GetValue(view);
+
+                    var automationIdProperty = element.GetType().GetProperty("AutomationId");
+                    if (automationIdProperty != null)
+                    {
+                        var automationIdValue = automationIdProperty.GetValue(element);
+                        if ((string)automationIdValue == automationId)
+                        {
+                            return (T)view;
+                        }
+                    }
                 }
             }
             else
             {
-                foreach (UIView subView in view.Subviews)
+                foreach (UIView subView in (view as UIView).Subviews)
                 {
-                    FindDatePickerRendererWithIdBelowView(subView, automationId);
+                    var r = FindRendererOfTypeBelowViewWithAutomationId<T>(subView, automationId);
+                    if (r != null)
+                    {
+                        return r;
+                    }
                 }
             }
+
+            return default(T);
         }
 
-        private static void FindPickerRendererWithId(string automationId)
+        static UIViewController GetTopViewController()
         {
-            UIViewController currentViewController = topViewController();
-            FindPickerRendererWithIdBelowView(currentViewController.View, automationId);
+            return GetTopViewControllerWithRootViewController(UIApplication.SharedApplication.KeyWindow.RootViewController);
         }
 
-
-        private static void FindPickerRendererWithIdBelowView(UIView view, string automationId)
-        {
-            if (view is PickerRenderer)
-            {
-                var p = (PickerRenderer)view;
-                if (p.Element.AutomationId == automationId)
-                {
-                    foundPickerRenderer = p;
-                }
-            }
-            else
-            {
-                foreach (UIView subView in view.Subviews)
-                {
-                    FindPickerRendererWithIdBelowView(subView, automationId);
-                }
-            }
-        }
-
-        static UIViewController topViewController()
-        {
-            return topViewControllerWithRootViewController(UIApplication.SharedApplication.KeyWindow.RootViewController);
-        }
-
-        static UIViewController topViewControllerWithRootViewController(UIViewController rootViewController)
+        static UIViewController GetTopViewControllerWithRootViewController(UIViewController rootViewController)
         {
             if (rootViewController is UITabBarController)
             {
                 UITabBarController tabbarController = (UITabBarController)rootViewController;
-                return topViewControllerWithRootViewController(tabbarController.SelectedViewController);
+                return GetTopViewControllerWithRootViewController(tabbarController.SelectedViewController);
             }
             else if (rootViewController is UINavigationController)
             {
                 UINavigationController navigationController = (UINavigationController)rootViewController;
-                return topViewControllerWithRootViewController(navigationController.VisibleViewController);
+                return GetTopViewControllerWithRootViewController(navigationController.VisibleViewController);
             }
             else if (rootViewController.PresentedViewController != null)
             {
                 UIViewController presentedViewController = rootViewController.PresentedViewController;
-                return topViewControllerWithRootViewController(presentedViewController);
+                return GetTopViewControllerWithRootViewController(presentedViewController);
             }
             return rootViewController;
         }

@@ -14,6 +14,8 @@ namespace UITestPickerBackdoors.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
 
+            FreshMvvm.FreshIOC.Container.Register<IBackdoorRunner>(new BackdoorRunneriOS());
+
             // Start Calabash if we've got UITest enabled
 #if ENABLE_TEST_CLOUD
             Xamarin.Calabash.Start();
