@@ -20,6 +20,27 @@ _**Note**_ that these backdoors and supporting classes are only for iOS.
 1. Add [UITestBackdoorMethods.cs](UITestPickerBackdoors/UITestPickerBackdoors.iOS/UITestBackdoorMethods.cs) to your iOS project.
 1. Amend [AppDelegate.cs](UITestPickerBackdoors/UITestPickerBackdoors.iOS/AppDelegate.cs) to add the actual backdoor methods which will be Invoked.
 
+## Invoking The Backdoors
+
+The Backdoors can be invoked via extension methods defined for the UITest App class:
+
+```
+// Set an ordinary picker to index 2, showing the picker as it's set
+AppManager.App.SetFormsPickerIndex(AppManager.Platform, "MyPickerAutomationId", "2", true);
+```
+
+```
+// Set an ordinary picker to the value "Second item", without showing the picker as it's set
+AppManager.App.SetFormsPickerIndex(AppManager.Platform, "MyPickerAutomationId", "Second item", false);
+```
+
+```
+// set a date picker, showing the Picker at it's updated
+AppManager.App.SetFormsDatePickerValue(AppManager.Platform, "MyDatePickerAutomationId", dateValue , true);
+```
+
+**Note** that _AppManager_ above is an artefact of the UITest project setup (see below).
+
 # Ancillary Architecture
 
 The repo has other artefacts which are not directly concerned with the backdoors themselves, but make UITest management and debugging easier.
@@ -31,6 +52,8 @@ The test app makes use of [FreshMvvm](https://github.com/rid00z/FreshMvvm) for i
 ## UITestPickerBackdoors.UITests Project
 
 This implements the Page Object Pattern and other concepts presented in this Xamarin Blog - [Best Practices and Tips for Using Xamarin.UITest](https://devblogs.microsoft.com/xamarin/best-practices-tips-xamarin-uitest/)
+
+The Backdoors are invoked using extensions to the UITest App object, defined in [AppPickerExtensions.cs](UITestPickerBackdoors/UITestPickerBackdoors.UITests/AppPickerExtensions.cs).
 
 In addition, I use a wrapper [UIElement](UITestPickerBackdoors/UITestPickerBackdoors.UITests/UIElement.cs) class, which allows us to access either the underlying UI View or the AutomationId for the View. I've found this useful because we need to know the AutomationId and View for a visual element - for example, scrolling takes an AutomationId in some cases and the Element in others.
 
