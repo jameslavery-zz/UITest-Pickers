@@ -15,9 +15,10 @@ _**Note**_ that these backdoors and supporting classes are only for iOS.
 
 # Usage
 
+## Setup
+
 1. Add [UITestBackdoorMethods.cs](UITestPickerBackdoors/UITestPickerBackdoors.iOS/UITestBackdoorMethods.cs) to your iOS project.
 1. Amend [AppDelegate.cs](UITestPickerBackdoors/UITestPickerBackdoors.iOS/AppDelegate.cs) to add the actual backdoor methods which will be Invoked.
-1. Invoke the backdoor methods from your UITests.
 
 # Ancillary Architecture
 
